@@ -78,6 +78,7 @@ void System::Run()
             mpARDriver->Init();
             bFirstFrame = false;
 
+            LoadSVOGreenImages ("/home/zyx/project4slam/rpg_svo/svo/Datasets/sin2_tex2_h1_v8_d/img", vstrImageFilenames);
 //            LoadSVOImages ("/home/zyx/Downloads/airground_rig_s3_2013-03-18_21-38-48_SVO", vstrImageFilenames);
 //            LoadSVOImages ("/home/zyx/Downloads/mav_circle", vstrImageFilenames);
 //            LoadImages ("/home/zyx/Downloads/MH_01_easy/mav0/cam0/data",
@@ -101,15 +102,19 @@ void System::Run()
 //            cout << "获取图片数: " << vstrImageFilenames.size() << endl;
 
 //            LoadDataImages ("/home/zyx/Downloads/Data", vstrImageFilenames);
-            LoadData4PTAMImages ("/home/zyx/Downloads/Data4PTAM", vstrImageFilenames);
+//            LoadData4PTAMImages ("/home/zyx/Downloads/Data4PTAM", vstrImageFilenames);
 
         }
 
-        Image<byte> img;
+        Image<byte> img;//灰度图形式读取
         //CVD::img_load(img,"/home/zyx/Downloads/MH_01_easy/mav0/cam0/data/1403636579763555584.png");
 
 
+        //参考:http://www.edwardrosten.com/cvd/cvd/html/namespaceCVD.html
         CVD::img_load(img, vstrImageFilenames[currPicIndex++]);
+        if (currPicIndex == 2) {
+            CVD::img_save(img, "/home/zyx/img.png");//保存一张图片看看
+        }
         mimFrameBW = img;
 
 
@@ -189,6 +194,30 @@ void System::LoadImages(const string &strImagePath, const string &strPathTimes,
             vstrImages.push_back(strImagePath + "/" + ss.str() + ".png");//存放图片路径
         }
     }
+}
+
+void System::LoadSVOGreenImages(const string &strImagePath, vector<string> &vstrImages)
+{
+    vstrImages.reserve(200);//使用reserve来避免不必要的重新分配
+
+    for(int ii = 2; ii <= 187; ii++)
+    {
+        stringstream ss;
+        ss << ii;
+        string str = "";
+        if (ii < 10) {
+            str = "frame_00000" + ss.str();
+        } else if (ii < 100) {
+            str = "frame_0000" + ss.str();
+        } else if (ii < 1000) {
+            str = "frame_000" + ss.str();
+        }
+        vstrImages.push_back(strImagePath + "/" + str + "_0.png");//存放图片路径
+    }
+
+    cout << vstrImages[0] << endl;
+    cout << vstrImages[11] << endl;
+    cout << vstrImages[111] << endl;
 }
 
 void System::LoadSVOImages(const string &strImagePath, vector<string> &vstrImages)

@@ -51,6 +51,7 @@ private:
   void LoadImages(const std::string &strImagePath, const std::string &strPathTimes,
                   std::vector<std::string> &vstrImages);
   void LoadSVOImages(const std::string &strImagePath, std::vector<std::string> &vstrImages);
+  void LoadSVOGreenImages(const std::string &strImagePath, std::vector<std::string> &vstrImages);
   void LoadDataImages(const std::string &strImagePath, std::vector<std::string> &vstrImages);
   void LoadData4PTAMImages(const std::string &strImagePath, std::vector<std::string> &vstrImages);
   int currPicIndex;//当前图片索引
